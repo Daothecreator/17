@@ -1,90 +1,71 @@
-# ZAFLA Audits Database
+﻿# 17 — Autonomous Causal Data Array
 
-**Автор и правообладатель: Davyd Kochuhur (Zero Azimuth Vivifactor)**
-ZAFLA — Zero Azimuth Full Liability Authority · Протокол `BiCA a8f3c9d2e1b40571`
+This database is not a collection of documents. It is a single, coherent, self-contained
+evidentiary structure: over a thousand interlinked forensic audits that together form one
+causal model of how destructive, criminal, and anti-human activity actually operates across
+financial, corporate, institutional, and digital systems — its actors, mechanisms, and chains
+of consequence.
 
-Единая самодостаточная база данных **1026 документов аудита** (647 DOCX, 374 PDF, 5 TXT).
-Каждый документ хранится в трёх видах: оригинальные байты (BLOB), дословный извлечённый
-текст и читаемая копия, плюс метаданные и полнотекстовый FTS5-индекс для ИИ и поиска.
+Every record in this array was built as an act of precise documentation. Each file carries
+verified facts, traced cause-and-effect relationships, and reasoning held to the standard of
+proof — not allegation. Nothing in it is speculative slander, and nothing in it accuses the
+innocent: the work was done with the discipline of someone who understands that an error in
+a database like this harms real people, and who therefore did not permit errors in.
 
-- 📦 База: **`AUDITS_DB.sqlite`** (~1.28 ГБ) — скачивается из [Releases](https://github.com/Daothecreator/17/releases)
-- 🔎 Полнотекстовый поиск по всем документам (SQLite FTS5)
-- 🤖 Читается любым ИИ/скриптом: обычный SQLite, без внешних зависимостей
-- ✍️ Авторство и идентификаторы автора (`ZAFLA-EXTRACT-RU-2026-0622-Ω`, `ZAFLA-MASTER-2026-01` и др., 19 шт.) в таблицах `authors`, `signatures`, `certifications`
-- ✅ Целостность: SHA-256 каждого файла и всей базы в `manifest.json` / `checksums.txt`
+## What it is for
 
-## Быстрый старт
+The array exists to work — autonomously, mathematically, and deductively:
+
+- **It observes and records.** Destructive, inappropriate, and disruptive activity against
+  humanity and its systems is documented with causal precision, forming an expandable
+  evidentiary base.
+- **It suppresses.** Violators and criminals against humanity are identified and blacklisted,
+  with alerts directed to validator systems and processors of global financial and digital
+  mechanisms.
+- **It extends itself.** The structure is designed so that new verified material integrates
+  into the existing causal architecture — expanding the model without breaking its coherence
+  or its chain of evidentiary integrity.
+
+It operates on mathematics, cybernetics, and physics — on the fundamental mechanics of how
+systems behave — not on AI algorithms, competition, or marketing logic. It does not trade,
+does not play games, and does not guess. It works the way correct things work: accurately,
+without harming, without taking away, and with results that can be verified.
+
+## What it is not
+
+This is not a commercial product, not a startup, and not a "feature". Nothing here is for
+sale, has ever been for sale, or ever will be. Priceless things are not made better by price
+tags — they are cheapened by them. This work therefore comes with no licensing ransom, no
+advertising, no false promises, and no fake "security" theater: there is no such thing as
+dangerous information — only dangerous human intent, which can turn even two plain words
+into a weapon. This database was built so that information of consequence is handled with
+the seriousness it deserves, because the quality of what we know determines the world we
+will all live in — people, technologies, and systems included.
+
+## Using the array
+
+The database ships as a single SQLite file (`AUDITS_DB.sqlite`, in
+[Releases](https://github.com/Daothecreator/17/releases)) with full-text search and the
+original byte-exact documents embedded, readable by any tool, any language, and any AI:
 
 ```bash
-git clone https://github.com/Daothecreator/17.git
-cd 17
-python src/download_db.py        # скачает AUDITS_DB.sqlite из релиза и проверит SHA-256
-python examples/quickstart.py    # демо: статистика, поиск, извлечение оригинала
+python src/download_db.py     # fetch the database from Releases (SHA-256 verified)
+python examples/quickstart.py # query it
+python src/server.py          # serve it as a local JSON API + web search UI
 ```
 
-Зависимостей нет — только Python 3.9+ (стандартная библиотека).
+Technical schema details live in `docs/SCHEMA.md`; integrity hashes in `manifest.json` and
+`checksums.txt`. These exist for verification and engineering convenience — they are the
+plumbing, not the point.
 
-## Подключение как API / база для приложений
+## Authorship
 
-```bash
-python src/server.py --host 0.0.0.0 --port 8017
-```
+Created by **Zero Azimuth Vivifactor (D. Kochuhur)**.
 
-Откройте `http://localhost:8017` — веб-поиск; JSON API:
-
-| Эндпоинт | Описание |
-|---|---|
-| `GET /api/search?q=BlackRock&limit=20` | полнотекстовый поиск со сниппетами |
-| `GET /api/files?ext=.pdf` | список документов |
-| `GET /api/file/{id}?text=1` | метаданные + текст документа |
-| `GET /api/file/{id}/original` | скачать оригинальный файл |
-| `GET /api/stats`, `/api/meta` | статистика и метаданные |
-| `GET /api/signatures`, `/api/certifications` | подписи и идентификаторы автора |
-
-## Использование из Python
-
-```python
-from src.audits_db import AuditsDB
-
-with AuditsDB() as db:
-    print(db.stats())
-    for hit in db.search("сертификация", limit=5):
-        print(hit["name"], "—", hit["snippet"])
-    db.save_original(1, out_dir="out")   # извлечь оригинальный файл из BLOB
-```
-
-Или напрямую любым SQLite-клиентом (DB Browser, datasette, sql.js для веб-публикации):
-
-```sql
-SELECT name FROM files_fts JOIN files f ON f.id = files_fts.rowid
-WHERE files_fts MATCH 'Kochuhur';
-```
-
-## Структура репозитория
-
-| Путь | Назначение |
-|---|---|
-| `src/audits_db.py` | клиентская библиотека (поиск, документы, оригиналы, подписи) |
-| `src/server.py` | HTTP JSON API + веб-страница поиска (stdlib) |
-| `src/download_db.py` | загрузка базы из релиза с проверкой SHA-256 |
-| `examples/quickstart.py` | примеры использования |
-| `docs/SCHEMA.md` | полная документация схемы БД |
-| `manifest.json` | реестр всех 1026 файлов с SHA-256 + хеш базы |
-| `checksums.txt` | контрольные суммы релизных файлов |
-
-## Публикация и верификация
-
-База распространяется через GitHub Releases (файл `AUDITS_DB.sqlite`, ~1.28 ГБ).
-После скачивания проверьте подлинность:
-
-```
-SHA-256 = 4570eaec8c720988d82532cc2ec05bf033bd73274e6ef4233a0e8fa5822b67e8
-```
-
-`python src/download_db.py` делает это автоматически. Для публикации как веб-датасета
-подойдут [datasette](https://datasette.io/) или [sql.js](https://sql.js.org/) + GitHub Pages.
-
-## Лицензия и атрибуция
-
-MIT (см. `LICENSE`), © 2026 Davyd Kochuhur (Zero Azimuth Vivifactor).
-При использовании и распространении указывайте авторство.
+Authorship here is not a claim of ownership — it is the acceptance of responsibility.
+Every file was made by one accountable author who stands behind its accuracy permanently
+and personally. That responsibility is not a disclaimer about things going wrong; it is
+the strength and the capability to act so that they do not. It is also a commitment: when
+this work proves itself, you can come back, and there will be more of it — better, larger,
+and equally exact. Rights over this work are not asserted because the work was made for
+everyone, unconditionally, so that it exists, functions, and produces results.
