@@ -27,8 +27,11 @@ record. Nothing carries opinion. Operator-authored material is attributed as suc
 <span class="stat"><b>8</b> primary-source verifications</span>
 </p>
 
-<p><a class="btn" id="open">Open the live database →</a>
-<a class="btn" id="dl" style="background:#555">Download full registry (.zip, 23 MB)</a></p>
+<p><a class="btn" id="open" href="https://simonw.github.io/datasette-lite/#?url=https%3A%2F%2Fdaothecreator.github.io%2F17%2Fatlas_web.db">Open the live database →</a>
+<a class="btn" id="dl" style="background:#555" href="https://daothecreator.github.io/17/atlas.db.zip">Download full registry (.zip, 23 MB)</a></p>
+
+<p class="small">If the button opens a page about squirrels, it lost its parameter — copy this full link instead:<br>
+<code>https://simonw.github.io/datasette-lite/#?url=https%3A%2F%2Fdaothecreator.github.io%2F17%2Fatlas_web.db</code></p>
 
 <h2>What's inside</h2>
 <ul>
@@ -45,11 +48,5 @@ WebAssembly) — no server, no tracking. The full document registry (250,053 row
 hashes + provenance classes, no file contents) ships as the downloadable zip.
 Rebuild pipeline, schema and manifest included in this repository.</p>
 
-<script>
-  var base = location.origin + location.pathname.replace(/[^\/]*$/, '');
-  document.getElementById('open').href =
-    'https://simonw.github.io/datasette-lite/#?url=' + encodeURIComponent(base + 'atlas_web.db');
-  document.getElementById('dl').href = base + 'atlas.db.zip';
-</script>
 </body>
 </html>
