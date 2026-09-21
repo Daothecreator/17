@@ -1,7 +1,3 @@
-# База данных слишком велика для git — она публикуется в Releases
-AUDITS_DB.sqlite
-AUDITS_DB.sqlite.part
-*.part
-__pycache__/
-*.pyc
-out/
+
+atlas.db
+cloudflared.exe
